@@ -1,4 +1,4 @@
-﻿// Seeusing System;
+﻿using System;
 
 
 namespace TestGitHome
@@ -7,69 +7,34 @@ namespace TestGitHome
     {
         static void Main(string[] args)
         {
-            ColorMessage(ConsoleColor.Green, @"
-                
-                
-                          _______  _        _______  _______  _______  _______   _________ _______   
-                |\     /|(  ____ \( \      (  ____ \(  ___  )(       )(  ____ \  \__   __/(  ___  )  
-                | )   ( || (    \/| (      | (    \/| (   ) || () () || (    \/     ) (   | (   ) |  
-                | | _ | || (__    | |      | |      | |   | || || || || (__         | |   | |   | |  
-                | |( )| ||  __)   | |      | |      | |   | || |(_)| ||  __)        | |   | |   | |  
-                | || || || (      | |      | |      | |   | || |   | || (           | |   | |   | |  
-                | () () || (____/\| (____/\| (____/\| (___) || )   ( || (____/\     | |   | (___) |  
-                (_______)(_______/(_______/(_______/(_______)|/     \|(_______/     )_(   (_______)  
-                                                                                     
-                 _______  _______    ______   _______  _        _______  _        ______   _______   
-                (       )(  ____ \  (  __  \ (  ___  )( (    /|(  ___  )( \      (  __  \ (  ____ \  
-                | () () || (    \/  | (  \  )| (   ) ||  \  ( || (   ) || (      | (  \  )| (    \/  
-                | || || || |        | |   ) || |   | ||   \ | || (___) || |      | |   ) || (_____   
-                | |(_)| || |        | |   | || |   | || (\ \) ||  ___  || |      | |   | |(_____  )  
-                | |   | || |        | |   ) || |   | || | \   || (   ) || |      | |   ) |      ) |  
-                | )   ( || (____/\  | (__/  )| (___) || )  \  || )   ( || (____/\| (__/  )/\____) |  
-                |/     \|(_______/  (______/ (_______)|/    )_)|/     \|(_______/(______/ \_______)  
-                                                                                    
-                
-                ");
-
-            Console.WriteLine("Indtast dit navn for at gå til ordresystemet.");
-            Console.Write(">> ");
+            //Main Menu
+            MainMenu();
 
 
-            string customerName = Console.ReadLine();
-
-
-
-            if (customerName == String.Empty)
-                ColorMessage(ConsoleColor.Green, $"\nHej Ukendt person, du har 1000 kr i din kredit.");
-
-            else
-                ColorMessage(ConsoleColor.Green, $"\nHej {customerName}, du har 1000 kr i din kredit.");
-
-
-
-
-            Console.WriteLine("\nTryk på en vilkårlig tast for at gå ind i ordresystemet.");
-
-            Console.ReadKey();
-
-            Console.Clear();
-
-
-
+            //Declared for readers to understand
             bool accesstoOrder = true;
 
 
 
-            int totalFood = 0;
-            int totalDrink = 0;
-            int totalSide = 0;
+            Dictionary<string, int> totalFood = new Dictionary<string, int>(); //Dictionary for food order
+            Dictionary<string, int> totalDrink = new Dictionary<string, int>(); //Dictionary for drink order
+            Dictionary<string, int> totalSide = new Dictionary<string, int>(); //Dictionary for side order
+
+
+            //Dictionary for all the things customer has ordered. Like a summary
+            Dictionary<string, int> summaryOfItems = new Dictionary<string, int>();
+
+
+
             int totalPrice = 0;
             int totalCredit = 1000;
 
 
 
+
             while (accesstoOrder)
             {
+
                 ColorMessage(ConsoleColor.Yellow, @"
                       ____         __          ____         __          
                      / __ \_______/ /__ ____  / __/_ _____ / /____ __ _ 
@@ -81,41 +46,160 @@ namespace TestGitHome
 
                 Console.WriteLine("\nHvad vil du gerne bestille?");
 
-                Console.WriteLine();
+                Console.WriteLine(); //Line break
 
-                Console.WriteLine("1) Mad | 2) Drikkevarer | 3) Tilbehør | 4) Checkout");
+                Console.WriteLine("1) Mad | 2) Drikkevarer | 3) Tilbehør | 4) Checkout"); //options
                 Console.Write(">> ");
 
                 string menuChoice = Console.ReadLine();
 
 
 
-
+                //run if user wants food
                 if (menuChoice == "1")
                 {
                     Console.Clear();
                     totalFood = FoodMenu();
+
+
+
+                    /*  If customer orders food, he will have food total ellers "Food Total" key will not be declared!!!!
+                    /*  ["Chicken Burger", int]
+                    /*  ["Big Tasty Bacon Burger", int]
+                    /*  ["Cheese Burger", int]
+                    /*  ["Food Total", int] --> this is the total price of food                                                                                                                      
+                     */
                 }
 
 
+
+                //run if user wants drink
                 else if (menuChoice == "2")
                 {
                     Console.Clear();
                     totalDrink = DrinkMenu();
+
+
+
                 }
 
+
+                //run if user wants side order
                 else if (menuChoice == "3")
                 {
                     Console.Clear();
                     totalSide = SideMenu();
+
+
                 }
 
 
+
+                //run if user wants to checkout
                 else if (menuChoice == "4")
                 {
                     Console.Clear();
-                    totalPrice = totalFood + totalDrink + totalSide;
-                    ColorMessage(ConsoleColor.Yellow, $"Den samlede pris er {totalPrice} kr.");
+
+                    int foodPrice = 0;
+                    int drinkPrice = 0;
+                    int sidePrice = 0;
+
+
+                    //always run
+                    if (true)
+                    {
+
+
+                        if (totalFood.ContainsKey("Food Total"))
+                            foodPrice = totalFood["Food Total"];
+
+
+                        else
+                            foodPrice = 0;
+
+                        totalFood.Remove("Food Total"); //Removing this key so that the summary dictionary only contain a summary of items
+
+                    }
+
+
+                    if (true)
+                    {
+
+                        if (totalDrink.ContainsKey("Drink Total"))
+                            drinkPrice = totalDrink["Drink Total"];
+
+                        else
+                            drinkPrice = 0;
+
+                        totalDrink.Remove("Drink Total");  //Removing this key so that the summary dictionary only contain a summary of items
+                    }
+
+
+                    if (true)
+                    {
+
+                        if (totalFood.ContainsKey("Side Total"))
+                            sidePrice = totalSide["Side Total"];
+
+                        else
+                            sidePrice = 0;
+
+                        totalSide.Remove("Side Total");  //Removing this key so that the summary dictionary only contain a summary of items
+                    }
+
+
+
+
+
+                    totalPrice = foodPrice + drinkPrice + sidePrice;
+
+
+
+
+
+                    ColorMessage(ConsoleColor.Yellow, "Oversigt af din bestilling.");
+                    Console.WriteLine();
+
+                    //Adding all the food items that customer has ordered to summary dictionary
+                    foreach (var items in totalFood)
+                    {
+
+                        summaryOfItems.Add(items.Key, items.Value);
+
+
+                    }
+
+                    //Adding all the drink items that customer has ordered to summary dictionary
+                    foreach (var item in totalDrink)
+                    {
+
+
+                        summaryOfItems.Add(item.Key, item.Value);
+
+                    }
+
+                    //Adding all the side items that customer has ordered to summary dictionary
+                    foreach (var item in totalSide)
+                    {
+                        summaryOfItems.Add(item.Key, item.Value); ;
+
+                    }
+
+
+                    //Print the summary of the order
+                    foreach (var item in summaryOfItems)
+                    {
+
+
+                        ColorMessage(ConsoleColor.Green, $"{item.Value}x {item.Key}");
+                    }
+
+
+                    ColorMessage(ConsoleColor.Yellow, $"\nDen samlede pris er {totalPrice} kr.");
+
+
+
+
 
                     if (totalCredit - totalPrice > 0)
                     {
@@ -126,7 +210,7 @@ namespace TestGitHome
 
 
                     else
-                        ColorMessage(ConsoleColor.Red, $"\nDu har ikke nok penge at købe det hele. Prøv at købe mindre.");
+                        ColorMessage(ConsoleColor.Red, $"\nDu har ikke nok penge at købe det hele. Prøv at købe mindre. Brokeass Kid!!!");
 
 
 
@@ -150,17 +234,21 @@ namespace TestGitHome
             ");
 
 
+
             Console.ReadLine();
 
         }
 
 
 
-        static int FoodMenu()
+        static Dictionary<string, int> FoodMenu()
         {
+
+            Dictionary<string, int> foods = new Dictionary<string, int>();
+
             int foodTotal = 0;
             int chickenBurgerCount = 0;
-            int bigTastyBacon = 0;
+            int bigTastyBaconCount = 0;
             int cheeseBurgerCount = 0;
 
             Console.WriteLine(@"
@@ -200,7 +288,7 @@ namespace TestGitHome
                 {
                     Console.Clear();
                     foodTotal += 80;
-                    bigTastyBacon++;
+                    bigTastyBaconCount++;
                     ColorMessage(ConsoleColor.Green, "\nDu har bestilt en Big Tasty bacon burger.");
                 }
 
@@ -220,42 +308,50 @@ namespace TestGitHome
                 {
                     Console.Clear();
 
-                    if (chickenBurgerCount > 0 && bigTastyBacon > 0 && cheeseBurgerCount > 0)
-                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} Chicken burger, {bigTastyBacon} Big Tasty bacon og {cheeseBurgerCount} cheese burger.");
+                    if (chickenBurgerCount > 0 && bigTastyBaconCount > 0 && cheeseBurgerCount > 0)
+                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} Chicken burger, {bigTastyBaconCount} Big Tasty bacon og {cheeseBurgerCount} cheese burger.");
 
 
 
-                    else if (chickenBurgerCount > 0 && bigTastyBacon == 0 && cheeseBurgerCount == 0)
+                    else if (chickenBurgerCount > 0 && bigTastyBaconCount == 0 && cheeseBurgerCount == 0)
                         ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} chicken burger.");
 
-                    else if (chickenBurgerCount == 0 && bigTastyBacon > 0 && cheeseBurgerCount == 0)
-                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {bigTastyBacon} big Tasty bacon burger.");
+                    else if (chickenBurgerCount == 0 && bigTastyBaconCount > 0 && cheeseBurgerCount == 0)
+                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {bigTastyBaconCount} big Tasty bacon burger.");
 
-                    else if (chickenBurgerCount == 0 && bigTastyBacon == 0 && cheeseBurgerCount > 0)
+                    else if (chickenBurgerCount == 0 && bigTastyBaconCount == 0 && cheeseBurgerCount > 0)
                         ColorMessage(ConsoleColor.Green, $"Du har bestilt {cheeseBurgerCount} cheese burger.");
 
-                    else if (chickenBurgerCount > 0 && bigTastyBacon > 0 && cheeseBurgerCount == 0)
-                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} chicken burger og {bigTastyBacon} big Tasty bacon burger.");
+                    else if (chickenBurgerCount > 0 && bigTastyBaconCount > 0 && cheeseBurgerCount == 0)
+                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} chicken burger og {bigTastyBaconCount} big Tasty bacon burger.");
 
-                    else if (chickenBurgerCount > 0 && bigTastyBacon > 0 && cheeseBurgerCount == 0)
-                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} chicken burger og {bigTastyBacon} big Tasty bacon burger.");
+                    else if (chickenBurgerCount > 0 && bigTastyBaconCount > 0 && cheeseBurgerCount == 0)
+                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} chicken burger og {bigTastyBaconCount} big Tasty bacon burger.");
 
-                    else if (chickenBurgerCount == 0 && bigTastyBacon > 0 && cheeseBurgerCount > 0)
-                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {bigTastyBacon} Big Tasty bacon burger og {cheeseBurgerCount} cheese burger.");
+                    else if (chickenBurgerCount == 0 && bigTastyBaconCount > 0 && cheeseBurgerCount > 0)
+                        ColorMessage(ConsoleColor.Green, $"Du har bestilt {bigTastyBaconCount} Big Tasty bacon burger og {cheeseBurgerCount} cheese burger.");
 
-                    else if (chickenBurgerCount > 0 && bigTastyBacon == 0 && cheeseBurgerCount > 0)
+                    else if (chickenBurgerCount > 0 && bigTastyBaconCount == 0 && cheeseBurgerCount > 0)
                         ColorMessage(ConsoleColor.Green, $"Du har bestilt {chickenBurgerCount} chicken burger og {cheeseBurgerCount} cheese burger.");
 
+                    if (chickenBurgerCount > 0)
+                        foods.Add("Chicken Burger", chickenBurgerCount);
+                    if (bigTastyBaconCount > 0)
+                        foods.Add("Big Tasty Bacon Burger", bigTastyBaconCount);
+                    if (cheeseBurgerCount > 0)
+                        foods.Add("Cheese Burger", cheeseBurgerCount);
 
 
-                    ColorMessage(ConsoleColor.Yellow, "\nSamlede omkostninger til mad er " + foodTotal + ".");
+                    foods.Add("Food Total", foodTotal);
+
+                    ColorMessage(ConsoleColor.Yellow, "\nSamlede omkostninger til mad er " + foods["Food Total"] + " kr.");
 
                     for (int i = 0; i < 120; i++)
                     {
                         Console.Write("*");
                     }
                     Console.WriteLine();
-                    return foodTotal;
+                    return foods;
 
                 }
 
@@ -267,8 +363,10 @@ namespace TestGitHome
 
 
 
-        static int DrinkMenu()
+        static Dictionary<string, int> DrinkMenu()
         {
+
+            Dictionary<string, int> drinks = new Dictionary<string, int>();
 
             int colaCount = 0;
             int fantaCount = 0;
@@ -498,17 +596,29 @@ namespace TestGitHome
                         ColorMessage(ConsoleColor.Green, $"Du købte {fantaCount} fanta, {spriteCount} sprite og {pepsiCount} pepsi.");
                     //134
                     else if (colaCount > 0 && fantaCount == 0 && spriteCount > 0 && pepsiCount > 0)
-                        ColorMessage(ConsoleColor.Green, $"Du købte {colaCount} cola, {spriteCount} spite og {pepsiCount} pepsi.");
+                        ColorMessage(ConsoleColor.Green, $"Du købte {colaCount} cola, {spriteCount} sprite og {pepsiCount} pepsi.");
                     //124
                     else if (colaCount > 0 && fantaCount > 0 && spriteCount == 0 && pepsiCount > 0)
                         ColorMessage(ConsoleColor.Green, $"Du købte {colaCount} cola og {fantaCount} fanta og {pepsiCount} pepsi.");
 
 
 
+                    if (colaCount > 0)
+                        drinks.Add("Cola", colaCount);
+
+                    if (fantaCount > 0)
+                        drinks.Add("Fanta", fantaCount);
+
+                    if (spriteCount > 0)
+                        drinks.Add("Sprite", spriteCount);
+
+                    if (pepsiCount > 0)
+                        drinks.Add("Pepsi", pepsiCount);
 
 
 
 
+                    drinks.Add("Drink Total", totalDrinkPrice);
 
 
 
@@ -519,7 +629,7 @@ namespace TestGitHome
                         Console.Write("*");
                     }
                     Console.WriteLine();
-                    return totalDrinkPrice;
+                    return drinks;
 
                 }
 
@@ -532,8 +642,11 @@ namespace TestGitHome
         }
 
 
-        static int SideMenu()
+        static Dictionary<string, int> SideMenu()
         {
+
+            Dictionary<string, int> side = new Dictionary<string, int>();
+
             int pommesFritesCount = 0;
             int mcNuggetsCount = 0;
             int chilliCheeseCount = 0;
@@ -805,13 +918,33 @@ namespace TestGitHome
                         ColorMessage(ConsoleColor.Green, $"Du bestilte {pommesFritesCount} Pommes Frites, {mcNuggetsCount} McNuggets og {dipCount} Dip.");
 
 
+                    if (pommesFritesCount > 0)
+                        side.Add("Pommes Frites", pommesFritesCount);
+
+
+                    if (mcNuggetsCount > 0)
+                        side.Add("McNuggets", mcNuggetsCount);
+
+                    if (chilliCheeseCount > 0)
+                        side.Add("Chilli Cheese", chilliCheeseCount);
+
+                    if (hotWingsCount > 0)
+                        side.Add("Hot Wings", hotWingsCount);
+
+                    if (dipCount > 0)
+                        side.Add("Dip", dipCount);
+
+                    side.Add("Side Total", sideTotal);
+
+
+
                     ColorMessage(ConsoleColor.Yellow, "Samlede omkostninger til tilbehør er " + sideTotal + " kr.");
                     for (int i = 0; i < 120; i++)
                     {
                         Console.Write("*");
                     }
                     Console.WriteLine();
-                    return sideTotal;
+                    return side;
 
 
 
@@ -870,12 +1003,61 @@ namespace TestGitHome
             Console.ForegroundColor = color;
 
             Console.WriteLine(message);
-
             Console.ResetColor();
 
 
         }
 
+        static void MainMenu()
+        {
+            ColorMessage(ConsoleColor.Green, @"
+                
+                
+                          _______  _        _______  _______  _______  _______   _________ _______   
+                |\     /|(  ____ \( \      (  ____ \(  ___  )(       )(  ____ \  \__   __/(  ___  )  
+                | )   ( || (    \/| (      | (    \/| (   ) || () () || (    \/     ) (   | (   ) |  
+                | | _ | || (__    | |      | |      | |   | || || || || (__         | |   | |   | |  
+                | |( )| ||  __)   | |      | |      | |   | || |(_)| ||  __)        | |   | |   | |  
+                | || || || (      | |      | |      | |   | || |   | || (           | |   | |   | |  
+                | () () || (____/\| (____/\| (____/\| (___) || )   ( || (____/\     | |   | (___) |  
+                (_______)(_______/(_______/(_______/(_______)|/     \|(_______/     )_(   (_______)  
+                                                                                     
+                 _______  _______    ______   _______  _        _______  _        ______   _______   
+                (       )(  ____ \  (  __  \ (  ___  )( (    /|(  ___  )( \      (  __  \ (  ____ \  
+                | () () || (    \/  | (  \  )| (   ) ||  \  ( || (   ) || (      | (  \  )| (    \/  
+                | || || || |        | |   ) || |   | ||   \ | || (___) || |      | |   ) || (_____   
+                | |(_)| || |        | |   | || |   | || (\ \) ||  ___  || |      | |   | |(_____  )  
+                | |   | || |        | |   ) || |   | || | \   || (   ) || |      | |   ) |      ) |  
+                | )   ( || (____/\  | (__/  )| (___) || )  \  || )   ( || (____/\| (__/  )/\____) |  
+                |/     \|(_______/  (______/ (_______)|/    )_)|/     \|(_______/(______/ \_______)  
+                                                                                    
+                
+                ");
+
+            Console.WriteLine("Indtast dit navn for at gå til ordresystemet.");
+            Console.Write(">> ");
+
+
+            string customerName = Console.ReadLine();
+
+
+
+            if (customerName == String.Empty)
+                ColorMessage(ConsoleColor.Green, $"\nHej Ukendt person, du har 1000 kr i din kredit.");
+
+            else
+                ColorMessage(ConsoleColor.Green, $"\nHej {customerName}, du har 1000 kr i din kredit.");
+
+
+
+
+            Console.WriteLine("\nTryk på en vilkårlig tast for at gå ind i ordresystemet.");
+
+            Console.ReadKey();
+
+            Console.Clear();
+
+        }
 
     }
 
